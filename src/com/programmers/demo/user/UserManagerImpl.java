@@ -8,11 +8,11 @@ import java.sql.*;
 
 public class UserManagerImpl implements IUserManager {
     private static UserManagerImpl instance;
-    private final DBUtil dbUtil;
+    Connection conn;
     ResultSet rs;
 
     private UserManagerImpl() {
-         dbUtil = DBUtil.getInstance();
+         conn = DBUtil.getInstance().getConnection();
     }
 
     public static UserManagerImpl getInstance(){
@@ -26,9 +26,7 @@ public class UserManagerImpl implements IUserManager {
     @Override
     public User login(String nickname, String password) {
         String sql = "SELECT user_id, nickname, password, role, birth_date FROM users WHERE nickname=? AND password=?";
-        try (Connection conn = dbUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nickname);
             ps.setString(2, password);
             rs = ps.executeQuery();
@@ -53,8 +51,7 @@ public class UserManagerImpl implements IUserManager {
     public void createUser(User user) {
         String sql = "INSERT INTO users (nickname, password, role, birth_date) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = dbUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getNickname());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getRole());
@@ -69,8 +66,7 @@ public class UserManagerImpl implements IUserManager {
     @Override
     public void deleteUser(Long id) {
         String sql = "DELETE FROM users WHERE user_id=?";
-        try (Connection conn = dbUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             int res = ps.executeUpdate();
             if (res != 1) {
