@@ -33,13 +33,6 @@ public class ReservationManagerImpl implements IReservationManager {
                     e.printStackTrace();
                 }
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -81,21 +74,14 @@ public class ReservationManagerImpl implements IReservationManager {
                     e.printStackTrace();
                 }
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return reservation;
     }
 
     @Override
-    public List<Reservation> reservationList() {
+    public List<Reservation> reservationList(String nickname) {
         List<Reservation> reservations = new ArrayList<>();
-        String sql = "SELECT * FROM reservations";
+        String sql =  "SELECT r.* FROM reservations r JOIN users u ON r.user_id = u.user_id WHERE u.nickname = ?";
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -129,13 +115,6 @@ public class ReservationManagerImpl implements IReservationManager {
                     e.printStackTrace();
                 }
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return reservations;
     }
@@ -160,13 +139,6 @@ public class ReservationManagerImpl implements IReservationManager {
                     e.printStackTrace();
                 }
             }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -187,13 +159,6 @@ public class ReservationManagerImpl implements IReservationManager {
             if (ps != null) {
                 try {
                     ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
