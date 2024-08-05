@@ -88,7 +88,6 @@ public class MovieManagerImpl implements IMovieManager {
             try {
                 if (rs != null) rs.close();
                 if (ps != null) ps.close();
-                if (conn != null) conn.close();
             } catch (SQLException e) {
                 System.out.println("Error closing resources");
                 e.printStackTrace();
@@ -116,7 +115,6 @@ public class MovieManagerImpl implements IMovieManager {
             try {
                 if (rs != null) rs.close();
                 if (ps != null) ps.close();
-                if (conn != null) conn.close();
             } catch (SQLException e) {
                 System.out.println("Error closing resources");
                 e.printStackTrace();
