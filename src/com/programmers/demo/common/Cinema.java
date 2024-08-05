@@ -31,7 +31,6 @@ public class Cinema {
     public void run(){
         showMain();
         User user = mainChoice();
-
         if(user == null) return;
 
         if(user.getRole().equals("manager")){
@@ -75,6 +74,7 @@ public class Cinema {
                     break;
                 case 2:
                     user = login(); // 사용자 혹은 관리자 로그인
+                    choice = -1;
                     break;
 
                 case 3:
