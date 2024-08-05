@@ -27,7 +27,7 @@ public class MovieManagerImpl implements IMovieManager {
 
     @Override
     public void addMovie(Movie movie) {
-        String SQL = "INSERT INTO movie (name, director, genre, start_date, end_date, rating) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO movies (name, director, genre, start_date, end_date, rating) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(SQL)) {
             ps.setString(1, movie.getName());
             ps.setString(2, movie.getDirector());
@@ -44,7 +44,7 @@ public class MovieManagerImpl implements IMovieManager {
 
     @Override
     public void deleteMovie(Long id) {
-        String SQL = "DELETE FROM movie WHERE movie_id = ?";
+        String SQL = "DELETE FROM movies WHERE movie_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(SQL)) {
             ps.setLong(1, id);
             ps.executeUpdate();
@@ -56,7 +56,7 @@ public class MovieManagerImpl implements IMovieManager {
 
     @Override
     public void updateMovie(Long id, LocalDate startDate, LocalDate endDate) {
-        String SQL = "UPDATE movie SET start_date = ?, end_date = ? WHERE movie_id = ?";
+        String SQL = "UPDATE movies SET start_date = ?, end_date = ? WHERE movie_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(SQL)) {
             ps.setDate(1, Date.valueOf(startDate));
             ps.setDate(2, Date.valueOf(endDate));
@@ -71,7 +71,7 @@ public class MovieManagerImpl implements IMovieManager {
     @Override
     public Movie getMovie(String name) {
         Movie movie = null;
-        String SQL = "SELECT * FROM movie WHERE name = ?";
+        String SQL = "SELECT * FROM movies WHERE name = ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -103,7 +103,7 @@ public class MovieManagerImpl implements IMovieManager {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String SQL = "SELECT * FROM movie";
+            String SQL = "SELECT * FROM movies";
             ps = conn.prepareStatement(SQL);
             rs = ps.executeQuery();
             while (rs.next()) {
