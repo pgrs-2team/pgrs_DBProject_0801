@@ -400,15 +400,10 @@ public class Cinema {
         }
     }
 
-    private void viewAllReservation(String nickname){
-        //
-        List<Reservation> reservationList = reservationManager.reservationList(nickname);
-        reservationList.forEach(System.out::println);
-    }
-
     private void getReservation(String nickname){
         // 2. 나의 예약 조회
-        System.out.println(reservationManager.getReservation(nickname));
+        List<Reservation> reservationList = reservationManager.reservationList(nickname);
+        reservationList.forEach(System.out::println);
     }
 
     private void updateReservation(){
