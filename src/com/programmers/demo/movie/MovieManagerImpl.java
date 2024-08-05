@@ -27,7 +27,7 @@ public class MovieManagerImpl implements IMovieManager {
 
     @Override
     public void addMovie(Movie movie) {
-        String SQL = "INSERT INTO movies (name, director, genre, start_date, end_date, rating) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO movies (movie_name, director, genre, start_date, end_date, rating) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(SQL)) {
             ps.setString(1, movie.getName());
             ps.setString(2, movie.getDirector());
@@ -71,7 +71,7 @@ public class MovieManagerImpl implements IMovieManager {
     @Override
     public Movie getMovie(String name) {
         Movie movie = null;
-        String SQL = "SELECT * FROM movies WHERE name = ?";
+        String SQL = "SELECT * FROM movies WHERE movie_name = ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -127,9 +127,9 @@ public class MovieManagerImpl implements IMovieManager {
         private Movie makeMovieSelect (ResultSet rs) throws SQLException {
             Movie movie = new Movie();
             movie.setMovie_id(rs.getLong("movie_id"));
-            movie.setName(rs.getString("name"));
-            movie.setDirector(rs.getString("director"));
+            movie.setName(rs.getString("movie_name"));
             movie.setGenre(rs.getString("genre"));
+            movie.setDirector(rs.getString("director"));
             movie.setStart_date(rs.getDate("start_date").toLocalDate());
             movie.setEnd_date(rs.getDate("end_date").toLocalDate());
             movie.setRating(rs.getString("rating"));
