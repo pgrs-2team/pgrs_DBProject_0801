@@ -88,6 +88,7 @@ public class ReservationManagerImpl implements IReservationManager {
         try {
             con = DBUtil.getInstance().getConnection();
             ps = con.prepareStatement(sql);
+            ps.setString(1, nickname);
             rs = ps.executeQuery();
             while (rs.next()) {
                 reservations.add(new Reservation(

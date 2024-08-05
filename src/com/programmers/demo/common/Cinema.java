@@ -42,7 +42,7 @@ public class Cinema {
             viewMovieChoice();
 
             showReservationMenu();
-            reservationChoice();
+            reservationChoice(user);
         }
 
     }
@@ -307,38 +307,32 @@ public class Cinema {
     private void showReservationMenu(){
         System.out.println("------------- 예약 관리 프로그램 -------------");
         System.out.println("1. 예약 하기");
-        System.out.println("2. 전체 예약 조회");
-        System.out.println("3. 이름으로 예약 조회");
-        System.out.println("4. 예약 수정 (인원수만)");
-        System.out.println("5. 예약 삭제");
+        System.out.println("2. 나의 예약 조회");
+        System.out.println("3. 예약 수정 (인원수만)");
+        System.out.println("4. 예약 삭제");
         System.out.println("-1. 프로그램 종료");
     }
 
-    private void reservationChoice(){
+    private void reservationChoice(User user){
         int choice;
         do{
             choice = getUserInput();
             switch (choice){
                 case 1: {
-                    createReservation();
+                    createReservation(user);
                     break;
                 }
                 case 2: {
-                    viewAllReservation();
+                    viewAllReservation(user.getNickname());
                     break;
                 }
 
                 case 3: {
-                    getReservation();
-                    break;
-                }
-
-                case 4: {
                     updateReservation();
                     break;
                 }
 
-                case 5: {
+                case 4: {
                     deleteReservation();
                     break;
                 }
@@ -355,31 +349,53 @@ public class Cinema {
         } while (choice != -1);
     }
 
-    private void createReservation(){
-        System.out.print("사용자 아이디 :");
-        Long userId_r = Long.parseLong(scanner.nextLine());
-
-        System.out.print("영화 아이디 : ");
-        Long movieId_r = Long.parseLong(scanner.nextLine());
+    private void createReservation(User user){
+        System.out.print("영화 이름 : ");
+        String movieTitle = scanner.nextLine();
 
         System.out.print("에약 인원 수 : ");
         int headCount =  Integer.parseInt(scanner.nextLine());
 
-        // 1. 예약 추가
-        reservationManager.createReservation(new Reservation(LocalDateTime.now(),headCount, userId_r, movieId_r));
+        Movie findMovie = movieManager.getMovie(movieTitle);
+
+        if(findMovie == null){
+            Exception.exception(ExceptionCode.INPUT_ERROR);
+            return;
+        }
+
+
+        // 1. 연령 체크
+        if (!verifyUserAge(user, findMovie)) {
+            System.out.println("연령이 맞지 않습니다.");
+            return;
+        }
+
+        // 2. 상영기간 체크
+        if (!verifyDate(findMovie)) {
+            System.out.println("현재 상영중인 영화가 아닙니다.");
+            return;
+        }
+
+         // 1. 예약 추가
+        reservationManager.createReservation(new Reservation(LocalDateTime.now(),headCount,
+                user.getUser_id(), findMovie.getMovie_id()));
     }
 
-    private void viewAllReservation(){
-        // 2. 예약 조회
-        List<Reservation> reservationList = reservationManager.reservationList();
+    private boolean verifyUserAge(User user, Movie findMovie) {
+        int age = LocalDate.now().getYear() - user.getBirth_date().getYear() + 1;
+        int rating = Integer.parseInt(findMovie.getRating());
+        return age >= rating;
+    }
+
+    private void viewAllReservation(String nickname){
+        //
+        List<Reservation> reservationList = reservationManager.reservationList(nickname);
         reservationList.forEach(System.out::println);
     }
 
-    private void getReservation(){
-        // 3. 사용자로 예약 조회
-        System.out.print("사용자 이름으로 예약 조회 : ");
-        String userName = scanner.nextLine();
-        System.out.println(reservationManager.getReservation(userName));
+    private void getReservation(String nickname){
+        // 2. 나의 예약 조회
+        System.out.println(reservationManager.getReservation(nickname));
     }
 
     private void updateReservation(){
