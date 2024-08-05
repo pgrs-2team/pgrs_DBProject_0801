@@ -9,6 +9,7 @@ import com.programmers.demo.common.repository.IMovieManager;
 import com.programmers.demo.common.repository.IReservationManager;
 import com.programmers.demo.common.repository.IUserManager;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -385,6 +386,18 @@ public class Cinema {
         int age = LocalDate.now().getYear() - user.getBirth_date().getYear() + 1;
         int rating = Integer.parseInt(findMovie.getRating());
         return age >= rating;
+    }
+
+    private boolean verifyDate(Movie findMovie) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime startDate = findMovie.getStart_date().atStartOfDay();
+        LocalDateTime endDate = findMovie.getEnd_date().atStartOfDay();
+
+        if (currentTime.isAfter(startDate) && currentTime.isBefore(endDate)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void viewAllReservation(String nickname){
