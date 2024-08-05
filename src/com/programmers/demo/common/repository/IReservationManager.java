@@ -14,4 +14,6 @@ public interface IReservationManager {
     void deleteReservation(Long id); // 예약 삭제하기
 
     void updateReservation(Long id, int headCount); // 예약 인원수 수정
+
+    boolean existReservation(Long id);
 }

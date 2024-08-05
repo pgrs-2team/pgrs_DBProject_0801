@@ -200,4 +200,21 @@ public class ReservationManagerImpl implements IReservationManager {
             }
         }
     }
+
+    @Override
+    public boolean existReservation(Long id) {
+        String SQL = "SELECT COUNT(*) FROM reservations WHERE reservation_id = ?";
+        Connection con = DBUtil.getInstance().getConnection();
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setLong(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

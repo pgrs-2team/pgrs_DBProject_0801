@@ -122,7 +122,24 @@ public class MovieManagerImpl implements IMovieManager {
         }
         return list;
     }
-        private Movie makeMovieSelect (ResultSet rs) throws SQLException {
+
+    @Override
+    public boolean existMovie(Long id) {
+        String SQL = "SELECT COUNT(*) FROM movies WHERE movie_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(SQL)) {
+            ps.setLong(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private Movie makeMovieSelect (ResultSet rs) throws SQLException {
             Movie movie = new Movie();
             movie.setMovie_id(rs.getLong("movie_id"));
             movie.setName(rs.getString("movie_name"));

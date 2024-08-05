@@ -237,16 +237,29 @@ public class Cinema {
     }
 
     private void updateMovie(){
+        Long movieId = null;
         // 영화 수정
-        System.out.print("수정 하고 싶은 영화 id : ");
-        Long movieId = Long.parseLong(scanner.nextLine());
+        while (true) {
+            System.out.print("수정 하고 싶은 영화 id : ");
+            try {
+                movieId = Long.parseLong(scanner.nextLine());
+                if (movieManager.existMovie(movieId)) {
+                    break;
+                } else {
+                    System.out.println("잘못된 영화 id입니다. 다시 입력해주세요.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요.");
+            }
+        }
+
         System.out.print("수정된 영화 상영일 : ");
         LocalDate startDate = LocalDate.parse(scanner.nextLine());
         System.out.print("수정된 영화 상영 종료일 : ");
         LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
         movieManager.updateMovie(movieId, startDate, endDate);
-    }
+        }
 
     private void deleteMovie(){
         // 영화 삭제
@@ -370,9 +383,22 @@ public class Cinema {
     }
 
     private void updateReservation(){
+        Long reservationId = null;
+        // 영화 수정
+        while (true) {
+            System.out.print("수정 하고 싶은 예약 id : ");
+            try {
+                reservationId = Long.parseLong(scanner.nextLine());
+                if (reservationManager.existReservation(reservationId)) {
+                    break;
+                } else {
+                    System.out.println("잘못된 예약 id입니다. 다시 입력해주세요.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요.");
+            }
+        }
         // 4. 예약 수정
-        System.out.print("수정 하고 싶은 예약 id : ");
-        Long reservationId = Long.parseLong(scanner.nextLine());
         System.out.print("수정된 인원 수 : ");
         int headCount = Integer.parseInt(scanner.nextLine());
 
