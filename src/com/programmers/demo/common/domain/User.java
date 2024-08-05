@@ -13,6 +13,8 @@ public class User {
 
     private LocalDate birth_date;
 
+    public User() {}
+
     public User(Long user_id, String nickname, String password, String role, LocalDate birth_date) {
         this.user_id = user_id;
         this.nickname = nickname;

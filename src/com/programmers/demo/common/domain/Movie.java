@@ -17,6 +17,7 @@ public class Movie {
 
     private String rating;
 
+    public Movie() {}
     public Movie(Long movie_id, String name, String director, String genre, LocalDate start_date, LocalDate end_date, String rating) {
         this.movie_id = movie_id;
         this.name = name;

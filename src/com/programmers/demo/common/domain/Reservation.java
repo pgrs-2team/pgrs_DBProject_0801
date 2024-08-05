@@ -13,6 +13,8 @@ public class Reservation {
 
     private Long movie_id;
 
+    public Reservation() {}
+
     public Reservation(Long reservation_id, LocalDateTime reservation_date, int head_count, Long user_id, Long movie_id) {
         this.reservation_id = reservation_id;
         this.reservation_date = reservation_date;
