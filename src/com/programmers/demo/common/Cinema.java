@@ -304,7 +304,7 @@ public class Cinema {
     private void reservationChoice(){
         int choice;
         do{
-            choice = Integer.parseInt(scanner.nextLine());
+            choice = getUserInput();
             switch (choice){
                 case 1: {
                     createReservation();
