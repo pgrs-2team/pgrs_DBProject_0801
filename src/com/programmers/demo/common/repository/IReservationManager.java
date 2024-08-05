@@ -11,7 +11,7 @@ public interface IReservationManager {
 
     List<Reservation> reservationList(); // 예약 전체 목록
 
-    void deleteReservation(int id); // 예약 삭제하기
+    void deleteReservation(Long id); // 예약 삭제하기
 
-    void updateReservation(int id, int headCount); // 예약 인원수 수정
+    void updateReservation(Long id, int headCount); // 예약 인원수 수정
 }

@@ -43,10 +43,10 @@ public class MovieManagerImpl implements IMovieManager {
     }
 
     @Override
-    public void deleteMovie(int id) {
+    public void deleteMovie(Long id) {
         String SQL = "DELETE FROM movie WHERE movie_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(SQL)) {
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("delete error");
@@ -55,7 +55,7 @@ public class MovieManagerImpl implements IMovieManager {
     }
 
     @Override
-    public void updateMovie(int id, LocalDate startDate, LocalDate endDate) {
+    public void updateMovie(Long id, LocalDate startDate, LocalDate endDate) {
         String SQL = "UPDATE movie SET start_date = ?, end_date = ? WHERE movie_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(SQL)) {
             ps.setDate(1, Date.valueOf(startDate));

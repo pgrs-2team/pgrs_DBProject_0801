@@ -141,14 +141,14 @@ public class ReservationManagerImpl implements IReservationManager {
     }
 
     @Override
-    public void deleteReservation(int id) {
+    public void deleteReservation(Long id) {
         String sql = "DELETE FROM reservations WHERE reservation_id = ?";
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = DBUtil.getInstance().getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,7 +171,7 @@ public class ReservationManagerImpl implements IReservationManager {
     }
 
     @Override
-    public void updateReservation(int id, int headCount) {
+    public void updateReservation(Long id, int headCount) {
         String sql = "UPDATE reservations SET head_count = ? WHERE reservation_id = ?";
         Connection con = null;
         PreparedStatement ps = null;
@@ -179,7 +179,7 @@ public class ReservationManagerImpl implements IReservationManager {
             con = DBUtil.getInstance().getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, headCount);
-            ps.setInt(2, id);
+            ps.setLong(2, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

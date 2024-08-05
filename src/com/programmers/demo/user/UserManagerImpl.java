@@ -67,7 +67,7 @@ public class UserManagerImpl implements IUserManager {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         String sql = "DELETE FROM users WHERE user_id=?";
         try (Connection conn = dbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

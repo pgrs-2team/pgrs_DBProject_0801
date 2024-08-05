@@ -7,5 +7,5 @@ public interface IUserManager {
 
     void createUser(User user); // 회원 가입
 
-    void deleteUser(int id); // 회원 삭제
+    void deleteUser(Long id); // 회원 삭제
 }
